@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задания 1 и 2</title>
+  <style>
+    body {
+      background-color: rgb(251, 242, 233);
+    }
+
+    input {
+      margin-bottom: 20px;
+    }
+
+    .theme * {
+
+      margin: 0;
+      padding: 5px;
+    }
+
+    .theme h3 {
+      border: 1px solid black;
+      margin: 0;
+      background-color: rgb(81, 140, 187);
+      color: white;
+    }
+
+
+
+    .theme p {
+      background-color: rgb(181, 220, 233);
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <p>Enter your name &#40name can't contain digits&#41:</p>
+  <input type="text" id="textInput" />
+
+  <div id="taskB">
+    <div class="theme">
+      <h3>What is Lorem Ipsum?</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore minus, hic, explicabo vel, laudantium quo
+        repudiandae asperiores quos blanditiis temporibus delectus maiores sunt harum illo vitae. Mollitia asperiores
+        quos
+        iste quasi illum, cum corporis dicta nemo? Et excepturi numquam a.
+      </p>
+    </div>
+
+    <div class="theme">
+      <h3>Why do we use it?</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore minus, hic, explicabo vel, laudantium quo
+        repudiandae
+        asperiores quos blanditiis temporibus delectus maiores sunt harum illo vitae. Mollitia asperiores quos iste
+        quasi
+        illum, cum corporis dicta nemo? Et excepturi numquam a.
+      </p>
+    </div>
+
+    <div class="theme">
+      <h3>Where does it come from?</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore minus, hic, explicabo vel, laudantium quo
+        repudiandae
+        asperiores quos blanditiis temporibus delectus maiores sunt harum illo vitae. Mollitia asperiores quos iste
+        quasi
+        illum, cum corporis dicta nemo? Et excepturi numquam a.
+      </p>
+    </div>
+
+
+    <div class="theme">
+      <h3>Where can I get some?</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore minus, hic, explicabo vel, laudantium quo
+        repudiandae
+        asperiores quos blanditiis temporibus delectus maiores sunt harum illo vitae. Mollitia asperiores quos iste
+        quasi
+        illum, cum corporis dicta nemo? Et excepturi numquam a.
+      </p>
+    </div>
+  </div>
+
+
+
+  <script>
+    //Задание 1
+    function handleInput(event) {
+      // Получаем значение из введенного текста
+      let inputValue = event.target.value;
+
+      // Удаляем все цифры из значения
+      let filteredValue = inputValue.replace(/\d/g, ''); // заменяем цифры на пустоту
+      // \d: Представляет собой любую цифру от 0 до 9.
+      // g: Поиск для всех.
+
+      // Обновляем значение в текстовом поле
+      event.target.value = filteredValue;
+    }
+
+    let textInput = document.getElementById("textInput");
+    textInput.addEventListener("input", handleInput);
+  </script>
+  <script>
+    //Задание 2
+    let themes = document.querySelectorAll(".theme");
+
+    themes.forEach(function (theme) {
+      theme.addEventListener("click", function () {
+        let paragraph = theme.querySelector('p'); // Получаем первый элемент p 
+        // paragraph.classList.add("active");
+        paragraph.style.display = "block";
+
+        // Отключаю остальные блоки
+        themes.forEach(function (theme) {
+          let paragraphOther = theme.querySelector('p'); // Получаем первый элемент p 
+          // paragraph.classList.add("active");
+          if (paragraphOther !== paragraph) {
+            paragraphOther.style.display = "none";
+          }
+        })
+      })
+    })
+  </script>
+</body>
+
+</html>
