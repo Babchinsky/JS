@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: rgb(250, 243, 234);
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    table td,
+    table th {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <p>Press Ctrl+E for edit text.</p>
+  <p>Press Ctrl+S for save text.</p>
+  <hr>
+  <p id="editText">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores eaque iste unde quam perspiciatis
+    tenetur
+    laboriosam harum commodi aliquid illum excepturi exercitationem eos, voluptates autem obcaecati labore officiis
+    molestiae facilis, optio perferendis, assumenda modi? Dolorem dolore quasi officia impedit ea facilis fuga accusamus
+    expedita autem, ipsa aut quo dolor animi.
+  </p>
+
+
+
+  <table id="people">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Age</th>
+        <th>Company</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="firstname">Mark</td>
+        <td class="lastname">Zuckerberg</td>
+        <td class="age">34</td>
+        <td class="company">Facebook</td>
+      </tr>
+      <tr>
+        <td class="firstname">Larry</td>
+        <td class="lastname">Page</td>
+        <td class="age">45</td>
+        <td class="company">Google</td>
+      </tr>
+      <tr>
+        <td class="firstname">Timothy</td>
+        <td class="lastname">Cook</td>
+        <td class="age">57</td>
+        <td class="company">Apple</td>
+      </tr>
+      <tr>
+        <td class="firstname">Bill</td>
+        <td class="lastname">Gates</td>
+        <td class="age">62</td>
+        <td class="company">Microsoft</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    //Задание 1
+    let isEditing = false;
+
+
+    document.addEventListener("keydown", function (event) {
+      let isCtrlPressed = event.ctrlKey;
+      let isEPressed = event.key === 'e';
+      let isSPressed = event.key === 's';
+
+
+
+      if (isCtrlPressed && isEPressed && !isEditing) {
+        // // Предотвращаем стандартное действие браузера
+        event.preventDefault();
+        // Находим элемент <p>
+        let paragraph = document.getElementById("editText");
+
+        // Создаем новый элемент <textarea>
+        let textarea = document.createElement('textarea');
+
+        // Копируем текст из <p> в <textarea>
+        textarea.value = paragraph.textContent;
+
+        // Заменяем <p> на <textarea>
+        paragraph.parentNode.replaceChild(textarea, paragraph);
+
+        isEditing = true;
+      }
+      if (isCtrlPressed && isSPressed && isEditing) {
+        // // Предотвращаем стандартное действие браузера
+        event.preventDefault();
+        let textarea = document.querySelector('textarea');
+
+        let paragraph = document.createElement("p");
+        paragraph.id = "editText";
+
+        // Копируем текст из <p> в <textarea>
+        paragraph.textContent = textarea.value;
+
+        // Заменяем <p> на <textarea>
+        textarea.parentNode.replaceChild(paragraph, textarea);
+
+        isEditing = false;
+      }
+    });
+  </script>
+  <script>
+    //Задание 2
+    let table = document.getElementById("people");
+    let tbody = table.querySelector('tbody');
+    let rows = tbody.querySelectorAll('tr');
+
+    function clearTbody() {
+      // Удаление всех элементов внутри tbody
+      while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+      }
+    }
+
+    function getTextFromChildByIdInRowAndSort(id){
+      let searchStrings = document.querySelectorAll(id); // Получаем все элементы firstname
+
+      let textArray = Array.from(searchStrings).map(string => string.textContent); // Получаем текст всех элементов
+      return textArray.sort(); // Сортируем
+    }
+
+    function sortRows(textArray, id){
+      textArray.forEach(function (textContent) {
+        // Ищем строку, в которой дочерний элемент с классом "Example" равен "Alex"
+        let targetRow = Array.from(rows).find(row => {
+          let exampleElement = row.querySelector(id);
+          return exampleElement && exampleElement.textContent === textContent;
+        });
+        tbody.appendChild(targetRow);
+
+      });
+    }
+
+    function fullSortFunc(id){
+      let textArray = getTextFromChildByIdInRowAndSort(id);
+      clearTbody();
+      sortRows(textArray, id);
+    }
+
+    table.addEventListener("click", function (event) {
+      switch (event.target.textContent) {
+        case "Firstname":
+          fullSortFunc(".firstname");
+          break;
+        case "Lastname":
+          fullSortFunc(".lastname");
+          break;
+        case "Age":
+          fullSortFunc(".age");
+          break;
+        case "Company":
+          fullSortFunc(".company");
+          break;
+      }
+
+    });
+  </script>
+</body>
+
+</html>
