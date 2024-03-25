@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function HtmlElement(tag, selfClosing, content) {
+      this.tag = tag || 'div';
+      this.selfClosing = selfClosing || false;
+      this.content = content || '';
+      this.attributes = [];
+      this.styles = [];
+      this.children = [];
+
+      this.setAttribute = function (name, value) {
+        this.attributes.push({ name, value });
+      };
+
+      this.setStyle = function (name, value) {
+        this.styles.push({ name, value });
+      };
+
+      this.addChild = function (child, atBeginning = false) {
+        if (atBeginning) {
+          this.children.unshift(child);
+        } else {
+          this.children.push(child);
+        }
+      };
+
+      this.getHtml = function () {
+        let html = `<${this.tag}`;
+
+        if (this.attributes.length > 0) {
+          html += ' ' + this.attributes.map(attr => `${attr.name}="${attr.value}"`).join(' ');
+        }
+
+        if (this.styles.length > 0) {
+          const styleString = this.styles.map(style => `${style.name}:${style.value}`).join(';');
+          html += ` style="${styleString}"`;
+        }
+
+        if (this.selfClosing) {
+          html += ' />';
+        } else {
+          html += `>${this.content}`;
+          if (this.children.length > 0) {
+            html += this.children.map(child => child.getHtml()).join('');
+          }
+          html += `</${this.tag}>`;
+        }
+
+        return html;
+      };
+    }
+
+    // Создание блока с использованием функции-конструктора
+    const wrapper = new HtmlElement('div');
+    wrapper.setStyle('display', 'flex');
+
+    const firstDiv = new HtmlElement('div');
+    firstDiv.setStyle('width', '300px');
+    firstDiv.setStyle('margin', '10px');
+
+    const firstH3 = new HtmlElement('h3', false, 'What is Lorem Ipsum?');
+    firstDiv.addChild(firstH3);
+
+    const firstImg = new HtmlElement('img', true);
+    firstImg.setStyle('width', '100%');
+    firstImg.setAttribute('alt', 'Lorem Ipsum');
+    firstImg.setAttribute('src', 'lipsum.jpg');
+    firstDiv.addChild(firstImg);
+
+    const firstP = new HtmlElement('p', false, '\"Lorem Ipsum is industry.Lorem since the 1500s, scrambled it to simply dummy text of the printing and typesetting Ipsum has been the industry\'s standard dummy text ever when an unknown printer took a galley of type and make a type specimen book.\"')
+    firstP.setStyle('text-align', 'justify');
+
+    const aInFirstP = new HtmlElement('a', false, 'More...');
+    aInFirstP.setAttribute('href', 'https://www.lipsum.com/');
+    aInFirstP.setAttribute('target', '_blank');
+    firstP.addChild(aInFirstP);
+
+    firstDiv.addChild(firstP);
+    wrapper.addChild(firstDiv);
+
+
+
+
+
+
+
+
+    const secondDiv = new HtmlElement('div');
+    secondDiv.setStyle('width', '300px');
+    secondDiv.setStyle('margin', '10px');
+
+    const secondH3 = new HtmlElement('h3', false, 'What is Lorem Ipsum?');
+    secondDiv.addChild(secondH3);
+
+    const secondImg = new HtmlElement('img', true);
+    secondImg.setStyle('width', '100%');
+    secondImg.setAttribute('alt', 'Lorem Ipsum');
+    secondImg.setAttribute('src', 'lipsum.jpg');
+    secondDiv.addChild(secondImg);
+
+    const secondP = new HtmlElement('p', false, '\"Lorem Ipsum is industry.Lorem since the 1500s, scrambled it to simply dummy text of the printing and typesetting Ipsum has been the industry\'s standard dummy text ever when an unknown printer took a galley of type and make a type specimen book.\"')
+    secondP.setStyle('text-align', 'justify');
+
+    const aInSecondP = new HtmlElement('a', false, 'More...');
+    aInSecondP.setAttribute('href', 'https://www.lipsum.com/');
+    aInSecondP.setAttribute('target', '_blank');
+    secondP.addChild(aInSecondP);
+
+    secondDiv.addChild(secondP);
+    wrapper.addChild(secondDiv);
+
+
+
+
+
+    document.write(wrapper.getHtml());
+  </script>
+</body>
+
+</html>

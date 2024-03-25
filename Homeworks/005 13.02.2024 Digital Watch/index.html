@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    let imgDigits = new Array("clock/0.gif", "clock/1.gif", "clock/2.gif", "clock/3.gif", "clock/4.gif", "clock/5.gif", "clock/6.gif", "clock/7.gif", "clock/8.gif", "clock/9.gif");
+    let currentHoursDigitA, currentHoursDigitB, currentMinutesDigitA, currentMinutesDigitB, currentSecondsDigitA, currentSecondsDigitB;
+
+    function initTime() {
+      // Получаем текущую дату
+      let currentDate = new Date();
+
+      //Получаем текущий час, минуту и секунду
+      let currentHours = currentDate.getHours();
+      let currentMinutes = currentDate.getMinutes();
+      let currentSeconds = currentDate.getSeconds();
+
+      // Получаем первую цифру
+      currentHoursDigitA = Math.floor(currentHours / 10);
+      currentMinutesDigitA = Math.floor(currentMinutes / 10);
+      currentSecondsDigitA = Math.floor(currentSeconds / 10);
+      // Получаем вторую цифру
+      currentHoursDigitB = currentHours % 10;
+      currentMinutesDigitB = currentMinutes % 10;
+      currentSecondsDigitB = currentSeconds % 10;
+
+      document.getElementById("secondA").src = imgDigits[currentSecondsDigitA];
+      document.getElementById("secondB").src = imgDigits[currentSecondsDigitB];
+      document.getElementById("minuteA").src = imgDigits[currentMinutesDigitA];
+      document.getElementById("minuteB").src = imgDigits[currentMinutesDigitB];
+      document.getElementById("hourA").src = imgDigits[currentHoursDigitA];
+      document.getElementById("hourB").src = imgDigits[currentHoursDigitB];
+    }
+    function updateTime() {
+      currentSecondsDigitB++;
+      if (currentSecondsDigitB == 10) {
+        currentSecondsDigitB = 0;
+        currentSecondsDigitA++;
+
+        if (currentSecondsDigitA == 6) {
+          currentSecondsDigitA = 0;
+          currentMinutesDigitB++;
+
+          if (currentMinutesDigitB == 10) {
+            currentMinutesDigitB = 0;
+            currentMinutesDigitA++;
+
+            if (currentMinutesDigitA == 6) {
+              currentMinutesDigitA = 0;
+              currentHoursDigitB++;
+
+              if (currentHoursDigitB == 10) {
+                currentHoursDigitB = 0;
+                currentHoursDigitA++;
+                document.getElementById("hourA").src = imgDigits[currentHoursDigitA];
+              }
+              else if (currentHoursDigitB == 4 && currentHoursDigitA == 2) {
+                currentHoursDigitA = 0;
+                currentHoursDigitB = 0;
+                document.getElementById("hourA").src = imgDigits[currentHoursDigitA];
+              }
+              document.getElementById("hourB").src = imgDigits[currentHoursDigitB];
+            }
+            document.getElementById("minuteA").src = imgDigits[currentMinutesDigitA];
+          }
+          document.getElementById("minuteB").src = imgDigits[currentMinutesDigitB];
+        }
+        document.getElementById("secondA").src = imgDigits[currentSecondsDigitA];
+      }
+      document.getElementById("secondB").src = imgDigits[currentSecondsDigitB];
+    }
+  </script>
+</head>
+
+<body>
+  <div style="text-align: center; display: flex;">
+    <img src="clock/0.gif" id="hourA" /> <br />
+    <img src="clock/0.gif" id="hourB" /> <br />
+    <img src="clock/points.gif" id="pointsA" /> <br />
+    <img src="clock/0.gif" id="minuteA" /> <br />
+    <img src="clock/0.gif" id="minuteB" /> <br />
+    <img src="clock/points.gif" id="pointsB" /> <br />
+    <img src="clock/0.gif" id="secondA" /> <br />
+    <img src="clock/0.gif" id="secondB" /> <br />
+  </div>
+
+
+  <script>
+
+    initTime();
+    setInterval("updateTime()", 1000);
+  </script>
+</body>
+
+</html>

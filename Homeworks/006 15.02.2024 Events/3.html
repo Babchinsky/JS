@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resizable Text Block</title>
+  <style>
+    #resizable-block {
+      border: 2px solid #333;
+      /* resize: both; //Если раскомментировать это свойство, то JS не нужен*/  
+      overflow: hidden; 
+      padding: 10px;
+      max-width: 500px;
+      max-height: 300px;
+      background-color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="resizable-block" contenteditable="true">
+    <p>This is a resizable text block. Try dragging the bottom right corner to resize it.</p>
+  </div>
+
+  <script>
+    const resizableBlock = document.getElementById('resizable-block');
+
+    resizableBlock.addEventListener('mousedown', function (e) {
+      if (e.target === resizableBlock) {
+        e.preventDefault();
+        let startX = e.clientX;
+        let startY = e.clientY;
+        let startWidth = parseInt(document.defaultView.getComputedStyle(resizableBlock).width, 10);
+        let startHeight = parseInt(document.defaultView.getComputedStyle(resizableBlock).height, 10);
+
+        function onMouseMove(e) {
+          const width = startWidth + e.clientX - startX;
+          const height = startHeight + e.clientY - startY;
+
+          resizableBlock.style.width = width + 'px';
+          resizableBlock.style.height = height + 'px';
+        }
+
+        function onMouseUp() {
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      }
+    });
+  </script>
+</body>
+
+</html>
