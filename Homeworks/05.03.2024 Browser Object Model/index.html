@@ -1,35 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Document Browser Object</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <header>
-    <img src="images/design/TITLE.JPG" alt="Title Image">
-  </header>
+    <div class="title">
+        <img src="IMG/TITLE.JPG" alt="title">
+    </div>
 
+    <h1>Компьютерная графика и web дизайн</h1>
 
-  <div class="thumbnails">
-    <img src="images/works/SMALL/P0.JPG" alt="Миниатюра 0" data-src="images/works/P0.JPG">
-    <img src="images/works/SMALL/P1.JPG" alt="Миниатюра 1" data-src="images/works/P1.JPG">
-    <img src="images/works/SMALL/P2.JPG" alt="Миниатюра 2" data-src="images/works/P2.JPG">
-    <img src="images/works/SMALL/P3.JPG" alt="Миниатюра 3" data-src="images/works/P3.JPG">
-    <img src="images/works/SMALL/P4.JPG" alt="Миниатюра 4" data-src="images/works/P4.JPG">
-    <img src="images/works/SMALL/P5.JPG" alt="Миниатюра 5" data-src="images/works/P5.JPG">
-    <img src="images/works/SMALL/P6.JPG" alt="Миниатюра 6" data-src="images/works/P6.JPG">
-  </div>
+    <div id="gallery"></div>
 
-  <div id="overlay">
-    <img src="" alt="Enlarged Image">
-  </div>
+    <script>
+        let newWindow = null;
 
+        const gallery = [
+            "DESIGN/SMALL/P0.JPG",
+            "DESIGN/SMALL/P1.JPG",
+            "DESIGN/SMALL/P2.JPG",
+            "DESIGN/SMALL/P3.JPG",
+            "DESIGN/SMALL/P4.JPG",
+            "DESIGN/SMALL/P5.JPG",
+            "DESIGN/SMALL/P6.JPG",
+        ];
+        const container = document.getElementById("gallery");
+        gallery.forEach(imgSrc => {
+            let img = document.createElement("img");
+            img.src = imgSrc;
+            img.classList.add("img");
+            container.appendChild(img);
+            img.addEventListener("click", function() {
+                showModal(imgSrc);
+            });
+        });
+        
+        function showModal(imgSrc) {
+                if (newWindow && !newWindow.closed) {
+                    newWindow.close();
+                }
 
-  <script src="main.js"></script>
+                let img = new Image();
+                let r = imgSrc.slice(imgSrc.lastIndexOf("/"));
+                img.src = "DESIGN" + r;
+
+                img.onload = function () {
+                    let Height = img.naturalHeight;
+                    let Width = img.naturalWidth;
+
+                    // Установка размеров окна
+                    let windowWidth = Width + 22; // Добавляем 20 пикселей для избежания появления полос прокрутки
+                    let windowHeight = Height + 22;
+
+                    newWindow = window.open("bigimage.html?" + r, "_blank", "width=" + windowWidth + ",height=" + windowHeight + ",scrollbars=no");
+
+                    if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                        alert("Не удалось открыть изображение в новом окне. Пожалуйста, разрешите всплывающие окна в вашем браузере.");
+                    } else {
+                        newWindow.focus();
+                    }
+                }
+
+                img.onerror = function () {
+                    alert("Изображение не может быть загружено.");
+                }
+            }
+    </script>
 </body>
-
 </html>

@@ -1,41 +1,36 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-body {
-	background: url('images/design/BG1.JPG') repeat;
-}
-header {
-	display: flex;
-	justify-content: center;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-#overlay {
-	display: none;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border: 2px solid #000;
-	background-color: #fff;
-	padding: 20px;
-	z-index: 999;
+body{
+    background: url("IMG/BG1.JPG");
 }
 
-#overlay img {
-	max-width: 100%;
-	max-height: 100%;
+.title{
+    display: flex;
+    justify-content: center;
+    padding: 24px;
 }
-.thumbnails {
-	display: flex;
-	justify-content: center; /* Центрирует элементы по горизонтали */
-	flex-wrap: wrap; /* Разрешает перенос элементов на новую строку */
+
+h1{
+    text-align: center;
+    color: white;
 }
-.thumbnails img {
-	width: 100px; /* Размер миниатюр */
-	height: 100px;
-	margin: 5px;
-	cursor: pointer;
-	border: 5px solid rgb(20, 53, 79);
+
+#gallery
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: last baseline;
+    width: 100%;
+    height: max-content;
+}
+
+.img{
+    border: 8px solid blue;
+    height: 100%;
+    width: auto;
 }
