@@ -1,112 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор вложенных списков</title>
 </head>
-<style>
-  ul li {
-    cursor: pointer;
-  }
-</style>
-
 <body>
+    <div class="main">
+        <input type="text" id="inputText" placeholder="Text input">
+        <br/>
 
+        <input name="1" type="radio" id="addEnd"/> 
+        <label for="addEnd"> Добавить новый элемент в конец списка</label>
+        <br />
+        <input name="1" type="radio" id="addPos" />
+        <label for="addPos"> Вставить новый элемент на указанную позицию</label>
+        <br />
+        <input name="1" type="radio" id="changeText" />
+        <label for="changeText">Изменить текст элемента</label>
+        <br />
+        <input name="1" type="radio" id="addList" />
+        <label for="addList">Добавить вложенный список</label>
+        <br />
+        <input name="1" type="radio" id="remEl" />
+        <label for="remEl">Удалить элемент</label>
+        <br />
+        <button id="btn_AddList">Добавить новый список</button>
+    </div>
 
-  <div>
-    <input name="v" type="radio" id="addRadio">добавить новый элемент в конец списка<input type="text" id="add">
-  </div>
-  <div>
-    <input name="v" type="radio" id="insertRadio">вставить новый элемент списка в заданную позицию;
-  </div>
-  <div>
-    <input name="v" type="radio" id="changeRadio">изменить текст элемента списка;
-  </div>
-  <div>
-    <input name="v" type="radio" id="nestedRadio">добавить вложенный список
-  </div>
-  <div>
-    <input name="v" type="radio" id="deleteRadio">удалить элемент списка
-  </div>
+    <div class="container" id="container">
+        
+    </div>
 
+    <script>
+        let container = document.getElementById("container");
+        let inputText = document.getElementById("inputText");
+        let btnAddList = document.getElementById("btn_AddList");
+        let currentList = null;
+        let _func;
 
-  <input type="button" id="addListButton" value="Добавить список ">
-  <div class="field">
-
-
-  </div>
-  <script>
-
-    var addButton = document.getElementById("addListButton");
-    var listsContainer = document.querySelector(".field");
-
-    addButton.addEventListener("click", function () {
-      var newList = document.createElement("ul");
-
-
-
-      var listItem = document.createElement("li");
-      listItem.addEventListener("click", function (e) {
-        var selectedRadio = document.querySelector('input[name="v"]:checked');
-
-        if (selectedRadio) {
-
-          var actionType = selectedRadio.id;
-          var inputText = document.getElementById("add").value;
-
-          switch (actionType) {
-            case "addRadio":
-              var newList = document.createElement("ul");
-              var listItem = document.createElement("li");
-
-              newList.appendChild(listItem);
-              listItem.innerText = inputText;
-              e.currentTarget.appendChild(newList);
-              break;
-            case "insertRadio":
-              e.stopPropagation();
-              var listItem = document.createElement("li");
-              listItem.innerText = inputText;
-
-              var parent = e.target.parentNode;
-              var index = Array.prototype.indexOf.call(parent.children, e.target);
-              parent.insertBefore(listItem, parent.children[index]);
-
-
-              break;
-            case "changeRadio":
-              e.stopPropagation();
-              e.target.innerText = inputText;
-              break;
-            case "nestedRadio":
-              e.stopPropagation();
-              var newList = document.createElement("ul");
-              var listItem = document.createElement("li");
-
-              newList.appendChild(listItem);
-              listItem.innerText = inputText;
-              e.target.appendChild(newList);
-              break;
-            case "deleteRadio":
-              e.stopPropagation();
-              e.target.remove();
-              break;
-          }
+        function EventHandler(event){
+            switch (_func.name){
+                case ("changeItemText"): { changeItemText(event); break;}
+                case ("addItemToEnd"): { addItemToEnd(event); break;}
+                case ("insertItemAtPosition"): { addItemToEnd(event, false); break;}
+                case ("addNestedList"): { addNestedList(event); break;}
+                case ("removeItem"): { removeItem(event); break;}
+            }
         }
 
-      });
 
-      listItem.textContent = "Элемент списка";
-      newList.appendChild(listItem);
+        // по кнопке Add new List
+        function btn_addNewList(event) {
+            if (currentList === null){
+                let ul = document.createElement("ul");
+                container.appendChild(ul);
+                currentList = ul;
+            }
+            let text = inputText.value || "Simple text";
+            let li = createLIItem(text);
+            currentList.appendChild(li);
+        }
+        
+        function addItemToEnd(event, toEnd = true) {
+            let target = event.target;
+            if (target.tagName !== "LI") {return;}
+            let li = createLIItem(inputText.value || "New text");
+            if (toEnd == true) target.parentElement.appendChild(li)
+            else target.parentElement.insertBefore(li, target || target.nextElementSibling);
+            event.stopPropagation();
+        }
+    
+
+        function changeItemText(event) {
+            let target = event.target;
+            if (target.tagName === "LI") {
+                let newText = inputText.value || "New text";
+        
+                if (target.firstChild && target.firstChild.nodeType === Node.TEXT_NODE) {
+                 
+                    target.firstChild.nodeValue = newText;
+                } else {
+                    
+                    let textNode = document.createTextNode(newText);
+                    target.appendChild(textNode);
+                }
+            }
+        }
+
+        function addNestedList(event) {
+            let text = inputText.value || "Nested list";
+            let li = event.target.closest("li"); 
+            if (!li) return;
+            if (li.querySelector("ul")) {
+                return;
+            }
+            let ul = document.createElement("ul");
+            let nestedLi = createLIItem(text);
+            ul.appendChild(nestedLi);
+            li.appendChild(ul);
+            event.stopPropagation();
+        }
+        
+        function createLIItem(text) {
+            let li = document.createElement("li");
+            li.textContent = text;
+            li.addEventListener("click", EventHandler);
+            return li;
+        }
+
+        function removeItem(event) {
+            let target = event.target;
+            if (target.tagName === "LI") {
+                target.parentElement.removeChild(target);
+            }
+        }
 
 
-      listsContainer.appendChild(newList);
-    });
+
+        
+        function addNewList(event) {
+            let ul = document.createElement("ul");
+            let text = inputText.value || "Simple text";
+            let li = createListItem(text);
+            ul.appendChild(li);
+            container.appendChild(ul);
+            currentList = ul;
+        }
 
 
-  </script>
+        
+        
+        
+    
+        function insertItemAtPosition(event, textNode) {
+            if (!currentList) return;
+            let text = inputText.value || "New item";
+            let position = prompt("Enter position to insert (starting from 1):");
+            if (position === null) return;
+            position = parseInt(position);
+            if (isNaN(position) || position < 1 || position > currentList.children.length + 1) {
+                alert("Invalid position!");
+                return;
+            }
+            let li = createListItem(text);
+            currentList.insertBefore(li, currentList.children[position - 1]);
+        }
+
+        btnAddList.addEventListener("click", btn_addNewList);
+        document.getElementById("addEnd").addEventListener("click", () => {_func = addItemToEnd});
+        document.getElementById("addPos").addEventListener("click", () => {_func = insertItemAtPosition});
+        document.getElementById("changeText").addEventListener("click", () => {_func = changeItemText});
+        document.getElementById("addList").addEventListener("click", () => {_func = addNestedList});
+        document.getElementById("remEl").addEventListener("click", () => {_func = removeItem});
+    </script>
 </body>
-
 </html>
