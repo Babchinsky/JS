@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <p>Длина строки:</p>
+  <input type="number" id="lengthInput" min="1" value="10">
+  
+  <p>Символы в строке:</p>
+  <input type="checkbox" id="digitsCheckbox" checked> Цифры
+  <input type="checkbox" id="upperCaseCheckbox" checked> Латинские буквы в верхнем регистре
+  <input type="checkbox" id="lowerCaseCheckbox" checked> Латинские буквы в нижнем регистре
+  
+  <button id="generateButton">Сгенерировать</button>
+  
+  <p>Сгенерированная строка:</p>
+  <textarea id="generatedString" rows="4" cols="50" readonly></textarea>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

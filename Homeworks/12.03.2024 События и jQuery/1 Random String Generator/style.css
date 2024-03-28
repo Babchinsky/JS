@@ -1,0 +1,32 @@
+/* Стили для основного контейнера */
+.container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+/* Стили для кнопки */
+#generateButton {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Стили для текстового поля */
+textarea {
+  margin-top: 10px;
+  resize: none;
+}
+
+/* Стили для параграфов */
+p {
+  margin-top: 10px;
+}
+
+/* Стили для чекбоксов */
+input[type="checkbox"] {
+  margin-right: 5px;
+}
