@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON Formatter</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <textarea id="jsonInput" placeholder="Enter JSON data..."></textarea>
+        <button id="formatBtn">Format</button>
+    </div>
+    <div id="formattedJson"></div>
+
+    <script>
+        $(document).ready(function(){
+            $('#formatBtn').click(function(){
+                var jsonData = $('#jsonInput').val();
+                try {
+                    var parsedData = JSON.parse(jsonData);
+                    var formattedData = JSON.stringify(parsedData, null, 4);
+                    $('#formattedJson').text(formattedData);
+                    $('#formattedJson').removeClass('error').addClass('success');
+                } catch (error) {
+                    $('#formattedJson').text("Invalid JSON format!");
+                    $('#formattedJson').removeClass('success').addClass('error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
