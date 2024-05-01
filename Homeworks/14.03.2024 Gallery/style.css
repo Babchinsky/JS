@@ -1,0 +1,47 @@
+body {
+	background-color: black;
+}
+.wrap {
+	margin-top: 50px !important;
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	margin: auto;
+}
+.bigImg {
+	display: flex;
+	width: 500px;
+	height: auto;
+	align-self: center;
+}
+.box {
+	display: flex;
+	width: 500px;
+	height: 330px;
+
+	align-self: center;
+}
+.bigPic {
+	width: 1000px;
+	height: auto !important;
+	margin: auto;
+}
+.none {
+	display: none !important;
+}
+
+.smallWrap {
+	display: flex;
+	margin-top: 50px;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.smallImg {
+	margin: 50px;
+	width: 250px;
+	height: auto;
+	background-color: black;
+}
+.fix {
+	height: auto !important;
+}
