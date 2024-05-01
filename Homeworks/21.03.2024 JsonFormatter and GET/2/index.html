@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <title>Каталог копирайтеров</title>
+  <link rel="stylesheet" href="style.css">
+  
+  
+</head>
+<body>
+  <div class="container">
+    <div id="copywriters" class="copywriters-container"></div>
+    <div id="copywriter-details" class="copywriter-details-container"></div>
+  </div>
+  <div id="copywriter-details-posts" class="copywriter-details-container"></div>
+  <button>Post</button>
+  <script>
+    $('button').click(SendFullPost);
+
+    let ID;
+async function SendRequest() {
+  try {
+   
+    let copywritersResponse = await fetch('https://jsonplaceholder.typicode.com/users');
+    let copywritersData = await copywritersResponse.json();
+    console.log('Copywriters:', copywritersData);
+
+
+    let copywritersContainer = $('#copywriters');
+    copywritersData.forEach(copywriter => {
+      let copywriterDiv = $('<div>').addClass('copywriter').text(copywriter.name);
+      copywriterDiv.click(() => {
+        SendFullRequest(copywriter.id);
+      });
+      copywritersContainer.append(copywriterDiv);
+    });
+
+
+
+
+  } catch(error) {
+    console.error('Error:', error);
+  }
+}
+async function SendFullRequest(copywriterId){
+  ID=copywriterId
+  let copywriterDetailsResponse = await fetch(`https://jsonplaceholder.typicode.com/users/${copywriterId}`);
+    let copywriterDetailsData = await copywriterDetailsResponse.json();
+
+
+    let copywriterDetailsContainer = $('#copywriter-details');
+    copywriterDetailsContainer.html(`
+      <h2>${copywriterDetailsData.name}</h2>
+      <p>Email: ${copywriterDetailsData.email}</p>
+      <p>Phone: ${copywriterDetailsData.phone}</p>
+      <p>Website: ${copywriterDetailsData.website}</p>
+    `);
+}
+
+
+async function SendFullPost(){
+  try {
+    let postsResponse = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${ID}`);
+    let postsData = await postsResponse.json();
+    let copywriterPostsContainer = $('#copywriter-details-posts');
+copywriterPostsContainer.empty(); 
+
+for (let i = 0; i < 2; i++) {
+  const post = postsData[i];
+  const postHtml = `
+  <div class="post">
+      <h3 class="post-title">${post.title}</h3>
+      <p class="post-body">${post.body}</p>
+    </div>
+  `;
+  copywriterPostsContainer.append(postHtml);
+}
+
+  } catch(error) {
+    console.error('Error fetching posts:', error);
+  }
+
+  
+}
+SendRequest();
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+.parent {
+	width: 600px;
+	height: 600px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+.box {
+	display: flex;
+	font-size: 72px;
+	align-items: center;
+	justify-content: center;
+	background-color: antiquewhite;
+	height: 150px;
+	width: 150px;
+	border: 1px solid black;
+}
+
+.black {
+	background-color: brown;
+}
+
+.selected {
+	background-color: green;
+}
